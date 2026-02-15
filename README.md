@@ -62,13 +62,23 @@ A professional photography website for showcasing work, listing events, selling 
 
 See `.env.example` for a full list with placeholders.
 
+## Sanity Studio (content management)
+
+Schemas: **Event**, **Gallery** (with sellable images and prices), **Site configuration** (hero, featured gallery).
+
+1. Create a project at [sanity.io](https://sanity.io) and copy the **Project ID**.
+2. In the repo root, copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SANITY_PROJECT_ID` (and `NEXT_PUBLIC_SANITY_DATASET` if needed).
+3. From the repo root, run the Studio:  
+   `cd sanity && npm install && npm run dev`  
+   Open [http://localhost:3333](http://localhost:3333). If you run from `sanity/`, create `sanity/.env` with the same variables (or copy from root).
+4. In the Studio, add **Site configuration** (singleton), then **Events** and **Galleries** with images and prices.
+
 ## Project structure
 
-(To be expanded as the app is built.)
-
-- `src/app/` – Next.js App Router pages and layouts
-- `src/components/` – React components
-- `sanity/` – Sanity Studio and schemas (if co-located)
+- `app/` – Next.js App Router pages and layouts
+- `components/` – React components
+- `lib/` – utilities (e.g. `cn`, Sanity client)
+- `sanity/` – Sanity Studio and schemas (Event, Gallery, Site config)
 - `public/` – Static assets
 
 ## Deploy

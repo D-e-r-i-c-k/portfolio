@@ -1,0 +1,52 @@
+import { defineField, defineType } from "sanity";
+
+export const siteConfigType = defineType({
+  name: "siteConfig",
+  title: "Site configuration",
+  type: "document",
+  groups: [
+    { name: "hero", title: "Hero" },
+    { name: "home", title: "Home page" },
+    { name: "general", title: "General" },
+  ],
+  fields: [
+    defineField({
+      name: "siteTitle",
+      title: "Site title",
+      type: "string",
+      group: "general",
+      initialValue: "Photography",
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Hero image",
+      type: "image",
+      group: "hero",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "heroHeadline",
+      title: "Hero headline",
+      type: "string",
+      group: "hero",
+    }),
+    defineField({
+      name: "heroSubheadline",
+      title: "Hero subheadline",
+      type: "text",
+      group: "hero",
+    }),
+    defineField({
+      name: "featuredGallery",
+      title: "Featured gallery (home)",
+      type: "reference",
+      to: [{ type: "gallery" }],
+      group: "home",
+    }),
+  ],
+  preview: {
+    prepare() {
+      return { title: "Site configuration" };
+    },
+  },
+});

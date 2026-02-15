@@ -48,6 +48,10 @@ next-env.d.ts
 sanity/dist/
 sanity/node_modules/
 
-# IDE
+# IDE and tooling
 .idea/
 .vscode/
+.cursor/
+
+# Sanity
+sanity/.sanity/

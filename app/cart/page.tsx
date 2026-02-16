@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function CartPage() {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-12">
+    <div className="animate-fade-in-up mx-auto max-w-2xl px-6 py-12">
       <Link
         href="/galleries"
         className="mb-8 inline-block text-sm text-muted-foreground underline-offset-4 hover:underline"

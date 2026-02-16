@@ -37,16 +37,16 @@ export default async function EventPage({
 
   const dateStr = event.date
     ? new Date(event.date).toLocaleDateString("en-ZA", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : "";
   const gallerySlug = event.gallery?.slug?.current;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-12">
+    <div className="animate-fade-in-up mx-auto max-w-3xl px-6 py-12">
       <Link
         href="/events"
         className="mb-8 inline-block text-sm text-muted-foreground underline-offset-4 hover:underline"

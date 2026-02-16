@@ -45,7 +45,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="relative min-h-[70vh] w-full overflow-hidden bg-foreground">
+      <section className="animate-hero-reveal relative min-h-[70vh] w-full overflow-hidden bg-foreground">
         {heroImage?.asset && (
           <Image
             src={urlFor(heroImage, { w: 1920, q: 85 })}
@@ -59,7 +59,7 @@ export default async function HomePage() {
         {heroImage?.asset && (
           <div className="absolute inset-0 bg-foreground/40" />
         )}
-        <div className="relative z-10 flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
+        <div className="animate-fade-in-up delay-3 relative z-10 flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
           <h1 className="font-display max-w-3xl text-4xl font-semibold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl">
             {heroHeadline}
           </h1>
@@ -85,7 +85,7 @@ export default async function HomePage() {
 
       {/* Featured gallery */}
       {featuredGallery?.slug?.current && (
-        <section className="mx-auto max-w-6xl px-6 py-16">
+        <section className="animate-fade-in-up delay-2 mx-auto max-w-6xl px-6 py-16">
           <h2 className="font-display mb-10 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             Featured gallery
           </h2>
@@ -120,7 +120,7 @@ export default async function HomePage() {
       )}
 
       {/* Next 3 events */}
-      <section className="border-t border-border/60 bg-muted/20 py-16">
+      <section className="animate-fade-in-up delay-3 border-t border-border/60 bg-muted/20 py-16">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="font-display mb-10 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             Upcoming events
@@ -148,7 +148,7 @@ export default async function HomePage() {
       </section>
 
       {/* Recent galleries */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="animate-fade-in-up delay-4 mx-auto max-w-6xl px-6 py-16">
         <h2 className="font-display mb-10 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
           Recent galleries
         </h2>
@@ -215,14 +215,14 @@ function EventCard({ event }: { event: UpcomingEvent }) {
     return (
       <Link
         href={`/events/${slug}`}
-        className="block overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+        className="hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-sm"
       >
         {content}
       </Link>
     );
   }
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+    <div className="hover-lift overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       {content}
     </div>
   );
@@ -265,14 +265,14 @@ function GalleryCard({ gallery }: { gallery: RecentGallery }) {
     return (
       <Link
         href={`/galleries/${slug}`}
-        className="block overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+        className="hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-sm"
       >
         {content}
       </Link>
     );
   }
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+    <div className="hover-lift overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       {content}
     </div>
   );

@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-xl px-6 py-12">
+    <div className="animate-fade-in-up mx-auto max-w-xl px-6 py-12">
       <h1 className="font-display mb-4 text-3xl font-semibold tracking-tight text-foreground">
         Get in touch
       </h1>

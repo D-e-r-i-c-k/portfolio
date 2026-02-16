@@ -14,10 +14,10 @@ export default async function EventsPage() {
   const events =
     hasSanityProject ?
       await client.fetch<UpcomingEvent[]>(allEventsQuery)
-    : ([] as UpcomingEvent[]);
+      : ([] as UpcomingEvent[]);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12">
+    <div className="animate-fade-in-up mx-auto max-w-6xl px-6 py-12">
       <h1 className="font-display mb-10 text-3xl font-semibold tracking-tight text-foreground">
         Events
       </h1>
@@ -27,17 +27,17 @@ export default async function EventsPage() {
             const slug = event.slug?.current;
             const dateStr = event.date
               ? new Date(event.date).toLocaleDateString("en-ZA", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })
               : "";
             return (
               <li key={event._id}>
                 {slug ? (
                   <Link
                     href={`/events/${slug}`}
-                    className="block overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+                    className="hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-sm"
                   >
                     <div className="aspect-[4/3] relative overflow-hidden bg-muted">
                       {event.coverImage?.asset && (
@@ -65,7 +65,7 @@ export default async function EventsPage() {
                     </div>
                   </Link>
                 ) : (
-                  <div className="overflow-hidden rounded-lg border border-border bg-card">
+                  <div className="hover-lift overflow-hidden rounded-lg border border-border bg-card">
                     <div className="aspect-[4/3] relative overflow-hidden bg-muted">
                       {event.coverImage?.asset && (
                         <Image

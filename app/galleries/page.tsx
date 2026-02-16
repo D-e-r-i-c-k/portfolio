@@ -14,10 +14,10 @@ export default async function GalleriesPage() {
   const galleries =
     hasSanityProject ?
       await client.fetch<RecentGallery[]>(allGalleriesQuery)
-    : ([] as RecentGallery[]);
+      : ([] as RecentGallery[]);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12">
+    <div className="animate-fade-in-up mx-auto max-w-6xl px-6 py-12">
       <h1 className="font-display mb-10 text-3xl font-semibold tracking-tight text-foreground">
         Galleries
       </h1>
@@ -30,7 +30,7 @@ export default async function GalleriesPage() {
                 {slug ? (
                   <Link
                     href={`/galleries/${slug}`}
-                    className="block overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+                    className="hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-sm"
                   >
                     <div className="aspect-[4/3] relative overflow-hidden bg-muted">
                       {gallery.coverImage?.asset && (
@@ -61,7 +61,7 @@ export default async function GalleriesPage() {
                     </div>
                   </Link>
                 ) : (
-                  <div className="overflow-hidden rounded-lg border border-border bg-card">
+                  <div className="hover-lift overflow-hidden rounded-lg border border-border bg-card">
                     <div className="aspect-[4/3] relative overflow-hidden bg-muted">
                       {gallery.coverImage?.asset && (
                         <Image

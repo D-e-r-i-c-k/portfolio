@@ -1,9 +1,9 @@
 import { client, hasSanityProject } from "@/lib/sanity/client";
 import { allGalleriesQuery } from "@/lib/sanity/queries";
 import type { RecentGallery } from "@/lib/sanity/types";
-import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/lib/sanity/image";
+import { ProtectedCoverImage } from "@/components/gallery/ProtectedCoverImage";
 
 export const metadata = {
   title: "Galleries | Photography",
@@ -32,14 +32,12 @@ export default async function GalleriesPage() {
                     href={`/galleries/${slug}`}
                     className="hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-sm"
                   >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+                    <div className="aspect-[4/3] overflow-hidden bg-muted">
                       {gallery.coverImage?.asset && (
-                        <Image
+                        <ProtectedCoverImage
                           src={urlFor(gallery.coverImage, { w: 600, q: 80 })}
-                          alt=""
-                          fill
-                          className="object-cover"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          containerClassName="h-full w-full"
                         />
                       )}
                     </div>
@@ -62,14 +60,12 @@ export default async function GalleriesPage() {
                   </Link>
                 ) : (
                   <div className="hover-lift overflow-hidden rounded-lg border border-border bg-card">
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+                    <div className="aspect-[4/3] overflow-hidden bg-muted">
                       {gallery.coverImage?.asset && (
-                        <Image
+                        <ProtectedCoverImage
                           src={urlFor(gallery.coverImage, { w: 600, q: 80 })}
-                          alt=""
-                          fill
-                          className="object-cover"
                           sizes="33vw"
+                          containerClassName="h-full w-full"
                         />
                       )}
                     </div>

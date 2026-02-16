@@ -4,6 +4,7 @@ import type { UpcomingEvent } from "@/lib/sanity/types";
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/lib/sanity/image";
+import { ProtectedCoverImage } from "@/components/gallery/ProtectedCoverImage";
 
 export const metadata = {
   title: "Events | Photography",
@@ -39,14 +40,12 @@ export default async function EventsPage() {
                     href={`/events/${slug}`}
                     className="hover-lift block overflow-hidden rounded-lg border border-border bg-card shadow-sm"
                   >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+                    <div className="aspect-[4/3] overflow-hidden bg-muted">
                       {event.coverImage?.asset && (
-                        <Image
+                        <ProtectedCoverImage
                           src={urlFor(event.coverImage, { w: 600, q: 80 })}
-                          alt=""
-                          fill
-                          className="object-cover"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          containerClassName="h-full w-full"
                         />
                       )}
                     </div>
@@ -66,14 +65,12 @@ export default async function EventsPage() {
                   </Link>
                 ) : (
                   <div className="hover-lift overflow-hidden rounded-lg border border-border bg-card">
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+                    <div className="aspect-[4/3] overflow-hidden bg-muted">
                       {event.coverImage?.asset && (
-                        <Image
+                        <ProtectedCoverImage
                           src={urlFor(event.coverImage, { w: 600, q: 80 })}
-                          alt=""
-                          fill
-                          className="object-cover"
                           sizes="(max-width: 640px) 100vw, 33vw"
+                          containerClassName="h-full w-full"
                         />
                       )}
                     </div>

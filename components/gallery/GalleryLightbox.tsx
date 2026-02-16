@@ -76,7 +76,7 @@ export function GalleryLightbox({
             <ChevronLeft className="h-8 w-8" />
           </Button>
           <div
-            className="relative h-full w-full max-w-5xl select-none"
+            className="relative h-full w-full max-w-5xl select-none overflow-hidden"
             onContextMenu={(e) => e.preventDefault()}
           >
             <Image
@@ -88,16 +88,15 @@ export function GalleryLightbox({
               priority
               draggable={false}
             />
-            {/* Repeating watermark overlay */}
+            {/* Repeating watermark overlay — clipped to image container */}
             <div
-              className="pointer-events-none absolute inset-0 flex flex-wrap items-center justify-center gap-16 overflow-hidden opacity-20"
+              className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-4 items-center justify-items-center overflow-hidden opacity-15"
               aria-hidden
-              style={{ transform: "rotate(-25deg)", transformOrigin: "center" }}
             >
               {Array.from({ length: 12 }).map((_, i) => (
                 <span
                   key={i}
-                  className="font-display whitespace-nowrap text-2xl font-semibold tracking-[0.25em] text-white drop-shadow-md sm:text-3xl"
+                  className="font-display -rotate-[25deg] whitespace-nowrap text-xl font-semibold tracking-[0.25em] text-white drop-shadow-md sm:text-2xl"
                 >
                   PREVIEW
                 </span>

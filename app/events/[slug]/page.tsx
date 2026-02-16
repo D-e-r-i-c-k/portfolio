@@ -4,6 +4,7 @@ import type { UpcomingEvent } from "@/lib/sanity/types";
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/lib/sanity/image";
+import { ProtectedCoverImage } from "@/components/gallery/ProtectedCoverImage";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({
@@ -55,16 +56,12 @@ export default async function EventPage({
       </Link>
       <article>
         {event.coverImage?.asset && (
-          <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
-            <Image
-              src={urlFor(event.coverImage, { w: 1200, q: 85 })}
-              alt=""
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 100vw, 768px"
-            />
-          </div>
+          <ProtectedCoverImage
+            src={urlFor(event.coverImage, { w: 1200, q: 85 })}
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            containerClassName="aspect-[16/10] rounded-lg"
+          />
         )}
         <header className="mt-8">
           <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">

@@ -7,6 +7,7 @@ import {
   recentGalleriesQuery,
 } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/image";
+import { ProtectedCoverImage } from "@/components/gallery/ProtectedCoverImage";
 import type { SiteConfig, UpcomingEvent, RecentGallery } from "@/lib/sanity/types";
 
 async function getHomeData() {
@@ -188,14 +189,12 @@ function EventCard({ event }: { event: UpcomingEvent }) {
 
   const content = (
     <>
-      <div className="aspect-[4/3] relative overflow-hidden rounded-t-lg bg-muted">
+      <div className="aspect-[4/3] overflow-hidden rounded-t-lg bg-muted">
         {event.coverImage?.asset && (
-          <Image
+          <ProtectedCoverImage
             src={urlFor(event.coverImage, { w: 600, q: 80 })}
-            alt=""
-            fill
-            className="object-cover"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            containerClassName="h-full w-full"
           />
         )}
       </div>
@@ -232,14 +231,12 @@ function GalleryCard({ gallery }: { gallery: RecentGallery }) {
   const slug = gallery.slug?.current;
   const content = (
     <>
-      <div className="aspect-[4/3] relative overflow-hidden rounded-t-lg bg-muted">
+      <div className="aspect-[4/3] overflow-hidden rounded-t-lg bg-muted">
         {gallery.coverImage?.asset && (
-          <Image
+          <ProtectedCoverImage
             src={urlFor(gallery.coverImage, { w: 600, q: 80 })}
-            alt=""
-            fill
-            className="object-cover"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            containerClassName="h-full w-full"
           />
         )}
       </div>

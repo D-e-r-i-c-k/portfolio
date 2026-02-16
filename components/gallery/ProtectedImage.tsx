@@ -34,7 +34,7 @@ export function ProtectedImage({
         src={src}
         alt={alt}
         fill={fill}
-        className={className}
+        className={`object-cover ${className}`}
         sizes={sizes}
         priority={priority}
         draggable={false}

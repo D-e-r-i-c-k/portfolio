@@ -1,6 +1,6 @@
 import { client, hasSanityProject } from "@/lib/sanity/client";
 import { galleryBySlugQuery } from "@/lib/sanity/queries";
-import { previewUrlFor } from "@/lib/sanity/image";
+import { thumbnailUrlFor, previewUrlFor } from "@/lib/sanity/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GalleryView } from "@/components/gallery/GalleryView";
@@ -17,6 +17,7 @@ interface Gallery {
   title?: string;
   slug?: { current: string };
   event?: { _id: string; title?: string; slug?: { current: string } } | null;
+  defaultPrice?: number;
   images?: GalleryImage[];
 }
 
@@ -50,12 +51,15 @@ export default async function GalleryPage({
   });
   if (!gallery) notFound();
 
+  const defaultPrice = gallery.defaultPrice;
+
   const images = (gallery.images ?? []).map((item) => ({
+    thumbnailUrl: item.image?.asset ? thumbnailUrlFor(item.image) : "",
     previewUrl: item.image?.asset ? previewUrlFor(item.image) : "",
     caption: item.caption,
     alt: item.alt,
-    price: item.price,
-  })).filter((img) => img.previewUrl);
+    price: item.price ?? defaultPrice,
+  })).filter((img) => img.thumbnailUrl);
 
   return (
     <div className="animate-fade-in-up mx-auto max-w-6xl px-6 py-12">

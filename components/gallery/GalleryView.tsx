@@ -6,6 +6,7 @@ import { GalleryLightbox, type LightboxImage } from "./GalleryLightbox";
 import { AddToCartButton } from "./AddToCartButton";
 
 export interface GalleryImageItem {
+  thumbnailUrl: string;
   previewUrl: string;
   caption?: string;
   alt?: string;
@@ -62,7 +63,7 @@ export function GalleryView({
               aria-label={`View ${item.alt ?? item.caption ?? `Photo ${i + 1}`} full size`}
             >
               <ProtectedImage
-                src={item.previewUrl}
+                src={item.thumbnailUrl}
                 alt={item.alt ?? item.caption ?? `Photo ${i + 1}`}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
@@ -78,7 +79,7 @@ export function GalleryView({
                     imageIndex={i}
                     title={item.caption ?? `Photo ${i + 1}`}
                     price={item.price}
-                    previewImageUrl={item.previewUrl}
+                    previewImageUrl={item.thumbnailUrl}
                   />
                 )}
               </div>

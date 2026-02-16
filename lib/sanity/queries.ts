@@ -61,6 +61,7 @@ export const galleryBySlugQuery = `
     title,
     slug,
     event-> { _id, title, slug },
+    defaultPrice,
     images[] {
       image,
       caption,

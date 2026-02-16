@@ -20,7 +20,12 @@ export function urlFor(
   return b.url();
 }
 
-/** Preview-only: max 1200px, 80% quality (for protected gallery display before watermark is added). */
+/** Thumbnail for grid cards: 400px, 70% quality — fast loading. */
+export function thumbnailUrlFor(source: SanityImageSource): string {
+  return urlFor(source, { w: 400, q: 70, fit: "max" });
+}
+
+/** Preview for lightbox: 800px, 75% quality — decent quality but not full-res. */
 export function previewUrlFor(source: SanityImageSource): string {
-  return urlFor(source, { w: 1200, q: 80, fit: "max" });
+  return urlFor(source, { w: 800, q: 75, fit: "max" });
 }

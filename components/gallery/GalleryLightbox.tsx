@@ -88,6 +88,21 @@ export function GalleryLightbox({
               priority
               draggable={false}
             />
+            {/* Repeating watermark overlay */}
+            <div
+              className="pointer-events-none absolute inset-0 flex flex-wrap items-center justify-center gap-16 overflow-hidden opacity-20"
+              aria-hidden
+              style={{ transform: "rotate(-25deg)", transformOrigin: "center" }}
+            >
+              {Array.from({ length: 12 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="font-display whitespace-nowrap text-2xl font-semibold tracking-[0.25em] text-white drop-shadow-md sm:text-3xl"
+                >
+                  PREVIEW
+                </span>
+              ))}
+            </div>
           </div>
           <Button
             type="button"

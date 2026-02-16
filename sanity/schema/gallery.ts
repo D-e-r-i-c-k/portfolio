@@ -31,6 +31,12 @@ export const galleryType = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "defaultPrice",
+      title: "Default price per photo (ZAR)",
+      type: "number",
+      description: "Applied to all photos unless overridden on an individual image.",
+    }),
+    defineField({
       name: "images",
       title: "Images",
       type: "array",
@@ -46,7 +52,7 @@ export const galleryType = defineType({
               name: "price",
               type: "number",
               title: "Price (ZAR)",
-              description: "Selling price for this photo",
+              description: "Optional — overrides the gallery default price for this specific photo.",
             },
           ],
           preview: {

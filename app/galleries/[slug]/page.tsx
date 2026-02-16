@@ -6,7 +6,9 @@ import { notFound } from "next/navigation";
 import { GalleryView } from "@/components/gallery/GalleryView";
 
 interface GalleryImage {
-  image?: { asset?: { _ref: string } };
+  asset?: { _ref: string };
+  hotspot?: { x: number; y: number; width: number; height: number };
+  crop?: { top: number; bottom: number; left: number; right: number };
   caption?: string;
   alt?: string;
   price?: number;
@@ -54,8 +56,8 @@ export default async function GalleryPage({
   const defaultPrice = gallery.defaultPrice;
 
   const images = (gallery.images ?? []).map((item) => ({
-    thumbnailUrl: item.image?.asset ? thumbnailUrlFor(item.image) : "",
-    previewUrl: item.image?.asset ? previewUrlFor(item.image) : "",
+    thumbnailUrl: item.asset ? thumbnailUrlFor(item) : "",
+    previewUrl: item.asset ? previewUrlFor(item) : "",
     caption: item.caption,
     alt: item.alt,
     price: item.price ?? defaultPrice,

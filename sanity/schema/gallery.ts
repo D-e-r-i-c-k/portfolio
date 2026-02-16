@@ -42,28 +42,30 @@ export const galleryType = defineType({
       type: "array",
       of: [
         defineArrayMember({
-          type: "object",
-          name: "galleryImage",
+          type: "image",
+          options: {
+            hotspot: true,
+            metadata: ["blurhash", "lqip", "palette"],
+          },
           fields: [
-            { name: "image", type: "image", title: "Image", options: { hotspot: true } },
-            { name: "caption", type: "string", title: "Caption" },
-            { name: "alt", type: "string", title: "Alt text (accessibility)" },
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+            },
+            {
+              name: "alt",
+              type: "string",
+              title: "Alt text (accessibility)",
+            },
             {
               name: "price",
               type: "number",
               title: "Price (ZAR)",
-              description: "Optional — overrides the gallery default price for this specific photo.",
+              description:
+                "Optional — overrides the gallery default price for this specific photo.",
             },
           ],
-          preview: {
-            select: { media: "image", caption: "caption" },
-            prepare({ media, caption }) {
-              return {
-                title: caption || "Image",
-                media,
-              };
-            },
-          },
         }),
       ],
     }),
@@ -73,7 +75,7 @@ export const galleryType = defineType({
     { title: "Title Z–A", name: "titleDesc", by: [{ field: "title", direction: "desc" }] },
   ],
   preview: {
-    select: { title: "title", event: "event.title", media: "images.0.image" },
+    select: { title: "title", event: "event.title", media: "images.0" },
     prepare({ title, event, media }) {
       return {
         title: title || "Untitled gallery",

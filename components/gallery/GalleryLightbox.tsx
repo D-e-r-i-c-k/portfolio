@@ -75,14 +75,18 @@ export function GalleryLightbox({
           >
             <ChevronLeft className="h-8 w-8" />
           </Button>
-          <div className="relative h-full w-full max-w-5xl">
+          <div
+            className="relative h-full w-full max-w-5xl select-none"
+            onContextMenu={(e) => e.preventDefault()}
+          >
             <Image
               src={current.src}
               alt={current.alt}
               fill
-              className="object-contain"
+              className="pointer-events-none object-contain"
               sizes="95vw"
               priority
+              draggable={false}
             />
           </div>
           <Button

@@ -1,9 +1,9 @@
 import { client, hasSanityProject } from "@/lib/sanity/client";
 import { galleryBySlugQuery } from "@/lib/sanity/queries";
-import { urlFor } from "@/lib/sanity/image";
-import Image from "next/image";
+import { previewUrlFor } from "@/lib/sanity/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GalleryView } from "@/components/gallery/GalleryView";
 
 interface GalleryImage {
   image?: { asset?: { _ref: string } };
@@ -50,7 +50,12 @@ export default async function GalleryPage({
   });
   if (!gallery) notFound();
 
-  const images = gallery.images ?? [];
+  const images = (gallery.images ?? []).map((item) => ({
+    previewUrl: item.image?.asset ? previewUrlFor(item.image) : "",
+    caption: item.caption,
+    alt: item.alt,
+    price: item.price,
+  })).filter((img) => img.previewUrl);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -73,37 +78,11 @@ export default async function GalleryPage({
           </Link>
         )}
       </header>
-      {images.length > 0 ? (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {images.map((item, i) => (
-            <li key={i} className="overflow-hidden rounded-lg border border-border bg-card">
-              <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                {item.image?.asset && (
-                  <Image
-                    src={urlFor(item.image, { w: 800, q: 80 })}
-                    alt={item.alt ?? item.caption ?? `Photo ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                )}
-              </div>
-              <div className="p-3">
-                {item.caption && (
-                  <p className="text-sm text-foreground">{item.caption}</p>
-                )}
-                {item.price != null && (
-                  <p className="mt-1 text-sm font-medium text-foreground">
-                    R {item.price}
-                  </p>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-muted-foreground">No photos in this gallery yet.</p>
-      )}
+      <GalleryView
+        gallerySlug={slug}
+        galleryTitle={gallery.title ?? "Gallery"}
+        images={images}
+      />
     </div>
   );
 }

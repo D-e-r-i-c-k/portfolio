@@ -45,7 +45,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="relative min-h-[70vh] w-full overflow-hidden bg-muted">
+      <section className="relative min-h-[70vh] w-full overflow-hidden bg-foreground">
         {heroImage?.asset && (
           <Image
             src={urlFor(heroImage, { w: 1920, q: 85 })}
@@ -56,18 +56,14 @@ export default async function HomePage() {
             sizes="100vw"
           />
         )}
-        <div
-          className={
-            heroImage?.asset
-              ? "absolute inset-0 bg-foreground/40"
-              : "absolute inset-0 bg-muted"
-          }
-        />
+        {heroImage?.asset && (
+          <div className="absolute inset-0 bg-foreground/40" />
+        )}
         <div className="relative z-10 flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
           <h1 className="font-display max-w-3xl text-4xl font-semibold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl">
             {heroHeadline}
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-white/95 drop-shadow-md sm:text-xl">
+          <p className="mt-4 max-w-xl text-lg text-white/90 drop-shadow-md sm:text-xl">
             {heroSubheadline}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -184,10 +180,10 @@ function EventCard({ event }: { event: UpcomingEvent }) {
   const slug = event.slug?.current;
   const dateStr = event.date
     ? new Date(event.date).toLocaleDateString("en-ZA", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : "";
 
   const content = (

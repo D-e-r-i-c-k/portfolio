@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { HeaderCartLink } from "@/components/HeaderCartLink";
+import { MobileNav } from "@/components/MobileNav";
 
 export function Header() {
   return (
@@ -7,7 +9,8 @@ export function Header() {
         <Link href="/" className="font-display text-xl tracking-tight text-foreground">
           Photography
         </Link>
-        <nav className="flex items-center gap-8 text-sm text-muted-foreground">
+        {/* Desktop nav – hidden on mobile */}
+        <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           <Link href="/" className="transition-colors hover:text-foreground">
             Home
           </Link>
@@ -20,7 +23,10 @@ export function Header() {
           <Link href="/contact" className="transition-colors hover:text-foreground">
             Contact
           </Link>
+          <HeaderCartLink />
         </nav>
+        {/* Mobile nav – visible on mobile only */}
+        <MobileNav />
       </div>
     </header>
   );

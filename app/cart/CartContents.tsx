@@ -5,15 +5,21 @@ import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { ProtectedImage } from "@/components/gallery/ProtectedImage";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2, ShoppingCart, Mail } from "lucide-react";
 
 export function CartContents() {
   const { items, removeItem, clearCart, totalZAR } = useCart();
   const [checkingOut, setCheckingOut] = useState(false);
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleCheckout = useCallback(async () => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
     setCheckingOut(true);
     setError("");
 
@@ -22,7 +28,10 @@ export function CartContents() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          email,
           items: items.map((item) => ({
+            gallerySlug: item.gallerySlug,
+            imageIndex: item.imageIndex,
             title: item.title,
             price: item.price,
           })),
@@ -59,7 +68,7 @@ export function CartContents() {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setCheckingOut(false);
     }
-  }, [items, clearCart]);
+  }, [items, email, clearCart]);
 
   if (items.length === 0) {
     return (
@@ -111,6 +120,31 @@ export function CartContents() {
           <span>R {totalZAR}</span>
         </p>
 
+        {/* Email input for download link delivery */}
+        <div className="mt-4">
+          <label
+            htmlFor="checkout-email"
+            className="mb-1.5 block text-sm font-medium text-foreground"
+          >
+            Email for download link
+          </label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              id="checkout-email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={checkingOut}
+              className="w-full rounded-md border border-border bg-background py-2 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+            />
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Your full-resolution photos will be emailed here after payment.
+          </p>
+        </div>
+
         {error && (
           <p className="mt-3 text-sm text-destructive">{error}</p>
         )}
@@ -119,7 +153,7 @@ export function CartContents() {
           type="button"
           className="mt-4 w-full gap-2"
           onClick={handleCheckout}
-          disabled={checkingOut}
+          disabled={checkingOut || !email}
         >
           {checkingOut ? (
             <>

@@ -97,7 +97,8 @@ export function buildPaymentData(
     items: PaymentItem[],
     returnUrl: string,
     cancelUrl: string,
-    notifyUrl: string
+    notifyUrl: string,
+    buyerEmail?: string
 ): PaymentFormData {
     const merchantId = process.env.PAYFAST_MERCHANT_ID ?? "";
     const merchantKey = process.env.PAYFAST_MERCHANT_KEY ?? "";
@@ -110,12 +111,14 @@ export function buildPaymentData(
             : `${items.length} photos`;
 
     // Field order matters for PayFast signature — follow their documented order
+    // buyer details (email_address) come between notify_url and m_payment_id
     const data: Record<string, string> = {
         merchant_id: merchantId,
         merchant_key: merchantKey,
         return_url: returnUrl,
         cancel_url: cancelUrl,
         notify_url: notifyUrl,
+        ...(buyerEmail ? { email_address: buyerEmail } : {}),
         m_payment_id: paymentId,
         amount: total.toFixed(2),
         item_name: itemName,

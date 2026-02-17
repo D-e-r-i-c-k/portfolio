@@ -1,12 +1,65 @@
 "use client";
 
+import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { ProtectedImage } from "@/components/gallery/ProtectedImage";
+import { Loader2, ShoppingCart } from "lucide-react";
 
 export function CartContents() {
-  const { items, removeItem, totalZAR } = useCart();
+  const { items, removeItem, clearCart, totalZAR } = useCart();
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [error, setError] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleCheckout = useCallback(async () => {
+    setCheckingOut(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            title: item.title,
+            price: item.price,
+          })),
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Checkout failed");
+      }
+
+      const { fields, actionUrl } = await res.json();
+
+      // Clear cart before redirect
+      clearCart();
+
+      // Build and auto-submit a hidden form to PayFast
+      const form = formRef.current;
+      if (!form) return;
+
+      form.action = actionUrl;
+      form.innerHTML = "";
+
+      for (const [key, value] of Object.entries(fields)) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value as string;
+        form.appendChild(input);
+      }
+
+      form.submit();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+      setCheckingOut(false);
+    }
+  }, [items, clearCart]);
 
   if (items.length === 0) {
     return (
@@ -44,21 +97,50 @@ export function CartContents() {
               size="sm"
               className="text-muted-foreground hover:text-destructive"
               onClick={() => removeItem(item.id)}
+              disabled={checkingOut}
             >
               Remove
             </Button>
           </li>
         ))}
       </ul>
+
       <div className="border-t border-border pt-4">
         <p className="flex justify-between text-lg font-semibold text-foreground">
           <span>Total (ZAR)</span>
           <span>R {totalZAR}</span>
         </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Checkout will be added in the next step (PayFast/Stripe).
+
+        {error && (
+          <p className="mt-3 text-sm text-destructive">{error}</p>
+        )}
+
+        <Button
+          type="button"
+          className="mt-4 w-full gap-2"
+          onClick={handleCheckout}
+          disabled={checkingOut}
+        >
+          {checkingOut ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Redirecting to PayFast…
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="h-4 w-4" />
+              Checkout — R {totalZAR}
+            </>
+          )}
+        </Button>
+
+        <p className="mt-3 text-center text-xs text-muted-foreground">
+          Secure payment via PayFast. Cards, EFT, and SnapScan accepted.
         </p>
       </div>
+
+      {/* Hidden form for PayFast redirect */}
+      <form ref={formRef} method="POST" className="hidden" />
     </div>
   );
 }

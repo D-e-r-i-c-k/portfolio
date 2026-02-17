@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
+import { ProtectedImage } from "@/components/gallery/ProtectedImage";
 
 export function CartContents() {
   const { items, removeItem, totalZAR } = useCart();
@@ -26,11 +26,9 @@ export function CartContents() {
         {items.map((item) => (
           <li key={item.id} className="flex gap-4 py-4 first:pt-0">
             <div className="relative h-20 w-24 flex-shrink-0 overflow-hidden rounded-md bg-muted">
-              <Image
+              <ProtectedImage
                 src={item.previewImageUrl}
                 alt={item.title}
-                fill
-                className="object-cover"
                 sizes="96px"
               />
             </div>

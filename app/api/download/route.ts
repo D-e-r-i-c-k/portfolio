@@ -32,14 +32,17 @@ export async function GET(request: NextRequest) {
     const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
     const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
-    const imageUrls = payload.assets.map((asset) => {
+    const imageUrls = payload.assets.map((asset, i) => {
         // Parse ref: "image-abcdef123-1920x1080-jpg" → id + ext
         const parts = asset.ref.replace("image-", "").split("-");
         const ext = parts.pop(); // "jpg"
         const id = parts.join("-"); // everything before the extension
+        // Prefix with index to prevent duplicate filenames across galleries
+        const safeTitle = asset.title.replace(/[^a-zA-Z0-9 _-]/g, "");
+        const paddedIndex = String(i + 1).padStart(2, "0");
         return {
             url: `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}.${ext}`,
-            filename: `${asset.title.replace(/[^a-zA-Z0-9 _-]/g, "")}.${ext}`,
+            filename: `${paddedIndex} - ${safeTitle}.${ext}`,
         };
     });
 

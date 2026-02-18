@@ -46,8 +46,8 @@ export async function POST(request: NextRequest) {
         const resend = new Resend(process.env.RESEND_API_KEY);
 
         const { error } = await resend.emails.send({
-            from: "Photos <noreply@resend.dev>",
-            to: payload.email,
+            from: "Photos <onboarding@resend.dev>",
+            to: [payload.email],
             subject: `Your ${photoLabel} — Download Ready`,
             html: `
                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
